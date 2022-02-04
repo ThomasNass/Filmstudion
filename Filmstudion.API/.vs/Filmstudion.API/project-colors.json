@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "a014acf7-ce43-4582-9d62-4f68ba5656ec": {
+      "ProjectGuid": "a014acf7-ce43-4582-9d62-4f68ba5656ec",
+      "DisplayName": "Filmstudion.API",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
