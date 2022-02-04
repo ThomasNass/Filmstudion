@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Filmstudion.API.Persistence.Contexts
 {
-    public class AppDbContext:IdentityDbContext<FilmStudio>
+    public class AppDbContext:IdentityDbContext<User>
     {
         public DbSet<Film> Films { get; set; }
         public DbSet<FilmStudio> FilmStudios { get; set; }
+       // public override DbSet<User> Users { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             this.Database.EnsureCreated();
