@@ -1,5 +1,5 @@
 ﻿using Filmstudion.API.Models.Film;
-using Filmstudion.API.Models.FilmStudio;
+using Filmstudion.API.Models.FilmStudioDir;
 using Filmstudion.API.Models.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ namespace Filmstudion.API.Persistence.Contexts
     {
         public DbSet<Film> Films { get; set; }
         public DbSet<FilmStudio> FilmStudios { get; set; }
-       // public override DbSet<User> Users { get; set; }
+        public DbSet<FilmCopy> FilmCopies { get; set;}
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
             this.Database.EnsureCreated();
@@ -20,9 +20,9 @@ namespace Filmstudion.API.Persistence.Contexts
             base.OnModelCreating(builder);
 
             builder.Entity<Film>().HasData(
-                new Film { FilmId = 1, Description= "A movie", Name ="Movie 1", FilmCopies = 3 },
-                new Film { FilmId = 2, Description = "A movie", Name = "Movie 2", FilmCopies = 3 },
-                new Film { FilmId = 3, Description = "A movie", Name = "Movie 3", FilmCopies = 3 }
+                new Film { FilmId = 1, Name = "Movie 1" },
+                new Film { FilmId = 2, Name = "Movie 2"},
+                new Film { FilmId = 3, Name = "Movie 3" }
 
             );
         }

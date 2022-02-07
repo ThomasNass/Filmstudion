@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Filmstudion.API.Models.CRUD;
-using Filmstudion.API.Models.FilmStudio;
+using Filmstudion.API.Models.FilmStudioDir;
+using Filmstudion.API.Models.User;
 using Filmstudion.API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,11 +27,12 @@ namespace Filmstudion.API.Controllers
         public IActionResult Register([FromBody]RegisterFilmStudio filmStudio)
         {
             var studio = _mapper.Map<FilmStudio>(filmStudio);
+            var user = _mapper.Map<User>(filmStudio);
 
             try
             {
-                _filmStudioService.Create(studio);
-                return Ok();
+                var registered = _filmStudioService.CreateFilmStudio(studio,user);
+                return Ok(registered);
             }
             catch(System.Exception ex)
             {

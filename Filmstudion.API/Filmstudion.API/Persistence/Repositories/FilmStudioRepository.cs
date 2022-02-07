@@ -1,4 +1,4 @@
-﻿using Filmstudion.API.Models.FilmStudio;
+﻿using Filmstudion.API.Models.FilmStudioDir;
 using Filmstudion.API.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -19,6 +19,7 @@ namespace Filmstudion.API.Persistence.Repositories
         public void Create(FilmStudio filmStudio)
         {
             _context.FilmStudios.Add(filmStudio);
+            _context.SaveChanges();
         }
     }
 }

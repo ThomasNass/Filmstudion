@@ -19,6 +19,7 @@ namespace Filmstudion.API.Persistence.Repositories
         public void Create(User user)
         {
             _context.Users.Add(user);
+            _context.SaveChanges();
         }
     }
 }

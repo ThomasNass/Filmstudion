@@ -1,5 +1,7 @@
 using Filmstudion.API.Models.User;
 using Filmstudion.API.Persistence.Contexts;
+using Filmstudion.API.Persistence.Repositories;
+using Filmstudion.API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,14 +34,19 @@ namespace Filmstudion.API
         {
 
             services.AddMvc();
-            services.AddIdentity<User, IdentityRole>();
-            services.AddAuthentication().AddCookie().AddJwtBearer();
+            services.AddAutoMapper(typeof(Startup).Assembly);
+            //services.AddAuthentication().AddCookie().AddJwtBearer();
             services.AddDbContext<AppDbContext>(options =>
                 options.UseInMemoryDatabase(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Filmstudion.API", Version = "v1" });
             });
+            services.AddScoped<UserService>();
+            services.AddScoped<FilmStudioService>();
+            services.AddScoped<FilmStudioRepository>();
+            services.AddScoped<UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
