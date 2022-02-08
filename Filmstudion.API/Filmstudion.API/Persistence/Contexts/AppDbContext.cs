@@ -1,6 +1,7 @@
 ﻿using Filmstudion.API.Models.Film;
 using Filmstudion.API.Models.FilmStudioDir;
 using Filmstudion.API.Models.User;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,9 @@ namespace Filmstudion.API.Persistence.Contexts
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "admin", NormalizedName = "admin".ToUpper() });
+            builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "filmstudio", NormalizedName = "filmstudio".ToUpper() });
 
             builder.Entity<Film>().HasData(
                 new Film { FilmId = 1, Name = "Movie 1" },

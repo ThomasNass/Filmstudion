@@ -17,14 +17,14 @@ namespace Filmstudion.API.Services
             _userRepository = userRepository;
         }
 
-        public FilmStudio CreateFilmStudio(FilmStudio filmStudio, User user)
+        public FilmStudio CreateFilmStudio(FilmStudio filmStudio)
         {
             _filmStudioRepository.Create(filmStudio);
-            user.Role = "filmstudio";
+            /*user.Role = "filmstudio";
             user.FilmStudio = filmStudio;
             user.FilmStudioId = filmStudio.FilmStudioId;
             _userRepository.Create(user);
-
+*/
             return filmStudio;
           
         }

@@ -6,7 +6,10 @@ using Filmstudion.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace Filmstudion.API.Controllers
 {   [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
@@ -15,11 +18,13 @@ namespace Filmstudion.API.Controllers
     public class FilmStudioController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly UserManager<User> _userManager;
         private readonly FilmStudioService _filmStudioService;
 
-        public FilmStudioController(FilmStudioService filmStudioService, IMapper mapper)
+        public FilmStudioController(FilmStudioService filmStudioService, IMapper mapper, UserManager<User> userManager)
         {
             _mapper = mapper;
+            _userManager = userManager;
             _filmStudioService = filmStudioService;
         }
 
@@ -32,13 +37,42 @@ namespace Filmstudion.API.Controllers
 
             try
             {
-                var registered = _filmStudioService.CreateFilmStudio(studio,user);
+                var registered = _filmStudioService.CreateFilmStudio(studio);
                 return Ok(registered);
             }
             catch(System.Exception ex)
             {
                 return BadRequest(ex.Message);
             }
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("Begister")]
+        public async Task<IActionResult> Begister([FromBody] RegisterFilmStudio model)
+        {
+            var userExists = await _userManager.FindByNameAsync(model.UserName);
+            if (userExists != null)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            var studio = _mapper.Map<FilmStudio>(model);
+            var filmStudio = _filmStudioService.CreateFilmStudio(studio);
+
+            User user = new User()
+            {
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = model.UserName,
+                Role = "filmstudio",
+                FilmStudio = studio,
+                FilmStudioId = filmStudio.FilmStudioId
+
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            _userManager.AddToRoleAsync(user, "filmstudio").Wait();
+            return Ok();
         }
     }
 }

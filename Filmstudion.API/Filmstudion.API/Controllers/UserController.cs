@@ -96,7 +96,7 @@ namespace Filmstudion.API.Controllers
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
-
+                if(user.Role == "admin") { 
                 return Ok(new
                 {
                     username = user.UserName,
@@ -105,6 +105,20 @@ namespace Filmstudion.API.Controllers
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo
                 });
+                }
+               else if (user.Role == "filmstudio")
+                {
+                    return Ok(new
+                    {
+                        username = user.UserName,
+                        role = user.Role,
+                        id = user.UserId,
+                        filmstudioId = user.FilmStudioId,
+                        filmstudio = user.FilmStudio,
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = token.ValidTo
+                    }); ;
+                }
             }
             return Unauthorized();
         }
@@ -121,13 +135,15 @@ namespace Filmstudion.API.Controllers
             {
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.UserName,
-                Role = "Admin",
+                Role = "admin",
                 IsAdmin = model.IsAdmin
             };
+           
             var result = await _userManager.CreateAsync(user, model.Password);
+            
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError);
-
+            _userManager.AddToRoleAsync(user, "admin").Wait();
             return Ok();
         }
 
