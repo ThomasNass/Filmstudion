@@ -3,12 +3,13 @@ using Filmstudion.API.Models.CRUD;
 using Filmstudion.API.Models.FilmStudioDir;
 using Filmstudion.API.Models.User;
 using Filmstudion.API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Filmstudion.API.Controllers
-{   [Authorize]
+{   [Authorize(AuthenticationSchemes =JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class FilmStudioController : ControllerBase

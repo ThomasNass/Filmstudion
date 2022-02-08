@@ -6,6 +6,7 @@ namespace Filmstudion.API.Models.User
 {
     public class User: IdentityUser, IUser
     {
+        [Key]
         public int UserId { get; set; }
         public string Role { get; set; }
         public bool IsAdmin { get; set; }
