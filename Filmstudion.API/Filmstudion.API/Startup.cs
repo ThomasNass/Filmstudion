@@ -1,4 +1,3 @@
-using Filmstudion.API.Helpers;
 using Filmstudion.API.Models.User;
 using Filmstudion.API.Persistence.Contexts;
 using Filmstudion.API.Persistence.Repositories;
@@ -37,11 +36,10 @@ namespace Filmstudion.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddMvc();
+            services.AddMvc().AddNewtonsoftJson(); 
             //services.AddAuthentication().AddCookie().AddJwtBearer();
             
             services.AddAutoMapper(typeof(Startup).Assembly);
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddDbContext<AppDbContext>(options =>
                 options.UseInMemoryDatabase(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
@@ -74,6 +72,8 @@ namespace Filmstudion.API
             services.AddScoped<FilmStudioService>();
             services.AddScoped<FilmStudioRepository>();
             services.AddScoped<UserRepository>();
+            services.AddScoped<FilmService>();
+            services.AddScoped<FilmRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

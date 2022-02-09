@@ -1,7 +1,9 @@
 ﻿using Filmstudion.API.Models.FilmStudioDir;
 using Filmstudion.API.Models.User;
 using Filmstudion.API.Persistence.Repositories;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Filmstudion.API.Services
@@ -20,11 +22,7 @@ namespace Filmstudion.API.Services
         public FilmStudio CreateFilmStudio(FilmStudio filmStudio)
         {
             _filmStudioRepository.Create(filmStudio);
-            /*user.Role = "filmstudio";
-            user.FilmStudio = filmStudio;
-            user.FilmStudioId = filmStudio.FilmStudioId;
-            _userRepository.Create(user);
-*/
+           
             return filmStudio;
           
         }
@@ -33,5 +31,12 @@ namespace Filmstudion.API.Services
             var filmStudios = await _filmStudioRepository.ListAsync();
             return filmStudios;
         }
+        public async Task<FilmStudio> GetFilmStudio(int filmStudioId)
+        {
+            var filmStudios = await _filmStudioRepository.ListAsync();
+            var filmStudio = filmStudios.FirstOrDefault(x => x.FilmStudioId == filmStudioId);
+            return filmStudio;
+        }
+
     }
 }

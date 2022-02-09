@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xQy2vVFXE8dlWTtkUAky0fLR5Kxw0viWq8PIsEn9MsoMil7PhzIXutunJjbjLehHv5q/HdfS0YjuZQFhQ0pyNQ==",
+  "dgSpecHash": "McLh03oVM7zZxjQX1lxbDPh+yHSBslHzHlVzrHZB4iIuAuQhoE9iceZ95MkhseUXpTdd3rMfCsf/tL9AMuyYgQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\tn900\\Documents\\Code\\C#\\repos\\inlämningar\\Filmstudion\\Filmstudion.API\\Filmstudion.API\\Filmstudion.API.csproj",
   "expectedPackageFiles": [
@@ -11,6 +11,8 @@
     "C:\\Users\\tn900\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\5.0.11\\microsoft.aspnetcore.cryptography.internal.5.0.11.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\5.0.11\\microsoft.aspnetcore.cryptography.keyderivation.5.0.11.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\5.0.11\\microsoft.aspnetcore.identity.entityframeworkcore.5.0.11.nupkg.sha512",
+    "C:\\Users\\tn900\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\5.0.11\\microsoft.aspnetcore.jsonpatch.5.0.11.nupkg.sha512",
+    "C:\\Users\\tn900\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\5.0.11\\microsoft.aspnetcore.mvc.newtonsoftjson.5.0.11.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\microsoft.data.sqlclient\\2.0.1\\microsoft.data.sqlclient.2.0.1.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\2.0.1\\microsoft.data.sqlclient.sni.runtime.2.0.1.nupkg.sha512",
@@ -45,6 +47,8 @@
     "C:\\Users\\tn900\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\tn900\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\tn900\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\swashbuckle.aspnetcore\\5.6.3\\swashbuckle.aspnetcore.5.6.3.nupkg.sha512",
     "C:\\Users\\tn900\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\5.6.3\\swashbuckle.aspnetcore.swagger.5.6.3.nupkg.sha512",

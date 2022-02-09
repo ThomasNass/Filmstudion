@@ -1,19 +1,23 @@
 ﻿using Filmstudion.API.Models.FilmStudioDir;
-using System.ComponentModel.DataAnnotations;
+using Filmstudion.API.Models.User;
 using System.Text.Json.Serialization;
 
-namespace Filmstudion.API.Models.User
+namespace Filmstudion.API.Models.CRUD
 {
-    public interface IUser
+    public class UserCreated:IUser
     {
-        [Key]
         public string Id { get; set; }
         public string UserName { get; set; }
         public string Role { get; set; }
+        [JsonIgnore]
         public bool IsAdmin { get; set; }
+        [JsonIgnore]
         public int FilmStudioId { get; set; }
+        [JsonIgnore]
         public FilmStudio FilmStudio { get; set; }
+        [JsonIgnore]
         public string Password { get; set; }
+        [JsonIgnore]
         public string Token { get; set; }
     }
 }

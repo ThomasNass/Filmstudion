@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Filmstudion.API.Controllers
@@ -28,27 +29,11 @@ namespace Filmstudion.API.Controllers
             _filmStudioService = filmStudioService;
         }
 
-        [AllowAnonymous]
-        [HttpPost("register")]
-        public IActionResult Register([FromBody]RegisterFilmStudio filmStudio)
-        {
-            var studio = _mapper.Map<FilmStudio>(filmStudio);
-            var user = _mapper.Map<User>(filmStudio);
-
-            try
-            {
-                var registered = _filmStudioService.CreateFilmStudio(studio);
-                return Ok(registered);
-            }
-            catch(System.Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
+       
         [AllowAnonymous]
         [HttpPost]
-        [Route("Begister")]
-        public async Task<IActionResult> Begister([FromBody] RegisterFilmStudio model)
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterFilmStudio model)
         {
             var userExists = await _userManager.FindByNameAsync(model.UserName);
             if (userExists != null)
@@ -72,7 +57,35 @@ namespace Filmstudion.API.Controllers
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError);
             _userManager.AddToRoleAsync(user, "filmstudio").Wait();
-            return Ok();
+            return Ok(filmStudio);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllFilmStudios()
+        {
+            var filmStudios = await _filmStudioService.GetAllFilmStudios();
+            var model = _mapper.Map<IList<FilmStudios>>(filmStudios);
+            return Ok(model);
+        }
+        [AllowAnonymous]
+        [HttpGet("{filmStudioId}")]
+        public async Task<IActionResult> GetFilmStudio(int filmstudioId)
+        {
+            var filmStudio = await _filmStudioService.GetFilmStudio(filmstudioId);
+            if (User.IsInRole("admin"))
+            {
+                return Ok(filmStudio);
+            }
+           /* else if (User.IsInRole("filmstudio"))//Kom tillbaka hit
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if(user.FilmStudioId == filmstudioId)
+                {
+                    return Ok(filmStudio);
+                }
+            }*/
+            var noAuthFilmStudio = _mapper.Map<NoAuthFilmStudio>(filmStudio);
+            return Ok(noAuthFilmStudio);
         }
     }
 }

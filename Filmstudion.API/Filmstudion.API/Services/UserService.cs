@@ -21,7 +21,7 @@ namespace Filmstudion.API.Services
             _userRepository.Create(user);
                 
 
-            var newUser = new {id= user.UserId,role = user.Role, name = user.UserName };
+            var newUser = new {id= user.Id,role = user.Role, name = user.UserName };
                 return newUser;
             }
             
