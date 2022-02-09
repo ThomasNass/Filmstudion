@@ -70,3 +70,7 @@ C:\Users\tn900\Documents\Code\C#\repos\inlämningar\Filmstudion\Filmstudion.API\
 C:\Users\tn900\Documents\Code\C#\repos\inlämningar\Filmstudion\Filmstudion.API\Filmstudion.API\obj\Debug\net5.0\ref\Filmstudion.API.dll
 C:\Users\tn900\Documents\Code\C#\repos\inlämningar\Filmstudion\Filmstudion.API\Filmstudion.API\obj\Debug\net5.0\Filmstudion.API.pdb
 C:\Users\tn900\Documents\Code\C#\repos\inlämningar\Filmstudion\Filmstudion.API\Filmstudion.API\obj\Debug\net5.0\Filmstudion.API.genruntimeconfig.cache
+C:\Users\tn900\Documents\Code\C#\repos\inlämningar\Filmstudion\Filmstudion.API\Filmstudion.API\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\tn900\Documents\Code\C#\repos\inlämningar\Filmstudion\Filmstudion.API\Filmstudion.API\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\tn900\Documents\Code\C#\repos\inlämningar\Filmstudion\Filmstudion.API\Filmstudion.API\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\tn900\Documents\Code\C#\repos\inlämningar\Filmstudion\Filmstudion.API\Filmstudion.API\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

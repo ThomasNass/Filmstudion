@@ -1,5 +1,6 @@
 ﻿using Filmstudion.API.Models.Film;
 using Filmstudion.API.Persistence.Contexts;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -19,8 +20,27 @@ namespace Filmstudion.API.Persistence.Repositories
 
         public void Create(Film film)
         {
-            _context.Films.Add(film);
+            var filmen = _context.Films.Add(film);
             _context.SaveChanges();
+        }
+
+        public void Update(Film film)
+        {
+           
+            _context.Films.Update(film);
+            _context.SaveChanges();
+            
+        }
+
+        public void CreateCopy(FilmCopy filmCopy)
+        {
+            _context.FilmCopies.Add(filmCopy);
+            _context.SaveChanges();
+        }
+
+        public async Task<IEnumerable<FilmCopy>> GetFilmCopies()
+        {
+            return await _context.FilmCopies.ToListAsync();
         }
     }
 }

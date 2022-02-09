@@ -29,16 +29,16 @@ namespace Filmstudion.API.Controllers
             _mapper = mapper;
             _filmService = filmService;
         }
-
+        [AllowAnonymous]//Remove this and uncomment if-statement when the filmcopy issue has been resolved 
        [HttpPut]
        public IActionResult CreateFilm([FromBody]CreateFilm createFilm)
         {
-            if (User.IsInRole("admin")) { 
+            //if (User.IsInRole("admin")) { 
             var film = _mapper.Map<Film>(createFilm);
             var created = _filmService.CreateFilm(film, createFilm.NumberOfCopies);
             return Ok(created);
-            }
-            return Unauthorized();
+            //}
+           // return Unauthorized();
         }
 
         [AllowAnonymous]
@@ -58,11 +58,22 @@ namespace Filmstudion.API.Controllers
             }
         }
         [HttpPatch("{FilmId}")]
-        public async Task<IActionResult> UpdateFilm([FromBody] int filmId, JsonPatchDocument<Film> patchEntity)
+        public async Task<IActionResult> UpdateFilm(int filmId, [FromBody] JsonPatchDocument<Film> patchEntity)
         {
 
-            var filmPatched = await _filmService.UpdateFilm(filmId);
+            var film = await _filmService.UpdateFilm(filmId, patchEntity);
+            
+            return Ok(film);
 
         }
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("filmcopies")]
+        public async Task<IActionResult> GetFilmCopies()
+        {
+            var copies = await _filmService.GetFilmCopies();
+            return Ok(copies);
+        }
+
     }
 }
