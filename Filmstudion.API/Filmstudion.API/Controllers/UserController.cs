@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Filmstudion.API.Models.CRUD;
+using Filmstudion.API.Models.DTO;
 using Filmstudion.API.Models.User;
 using Filmstudion.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -70,7 +70,7 @@ namespace Filmstudion.API.Controllers
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
-                if(user.Role == "admin") { 
+                if(user.IsAdmin == true) {
                 return Ok(new
                 {
                     username = user.UserName,
@@ -118,10 +118,9 @@ namespace Filmstudion.API.Controllers
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError);
             
-
             var Created = await _userManager.FindByNameAsync(model.UserName);
-            var userDisplay = _mapper.Map<UserCreated>(Created);
             _userManager.AddToRoleAsync(Created, "admin").Wait();
+            var userDisplay = _mapper.Map<UserCreated>(Created);
             return Ok(userDisplay);
         }
 

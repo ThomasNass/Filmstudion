@@ -16,10 +16,5 @@ namespace Filmstudion.API.Persistence.Repositories
             return await _context.Users.ToListAsync();
         }
 
-        public void Create(User user)
-        {
-            _context.Users.Add(user);
-            _context.SaveChanges();
-        }
     }
 }

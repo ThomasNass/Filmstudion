@@ -24,11 +24,16 @@ namespace Filmstudion.API.Persistence.Contexts
             builder.Entity<IdentityRole>().HasData(new IdentityRole { Name = "filmstudio", NormalizedName = "filmstudio".ToUpper() });
 
             builder.Entity<Film>().HasData(
-                new Film { FilmId = 1, Name = "Movie 1" },
-                new Film { FilmId = 2, Name = "Movie 2"},
-                new Film { FilmId = 3, Name = "Movie 3" }
+                new Film { FilmId = 1, Name = "Movie 1" ,Director ="Ingmar B",Country = "Sweden"},
+                new Film { FilmId = 2, Name = "Movie 2", Director = "Ingmar B", Country = "Sweden" },
+                new Film { FilmId = 3, Name = "Movie 3", Director = "Ingmar B", Country = "Sweden" }
 
             );
+            builder.Entity<FilmCopy>().HasData(
+                new FilmCopy { FilmCopyId = 1, FilmId = 1,RentedOut=false },
+                new FilmCopy { FilmCopyId = 2, FilmId = 1, RentedOut = false },
+                new FilmCopy { FilmCopyId = 3, FilmId = 1, RentedOut = false }
+                );
         }
     }
 }

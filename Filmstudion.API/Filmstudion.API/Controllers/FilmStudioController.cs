@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Filmstudion.API.Models.CRUD;
+using Filmstudion.API.Models.DTO;
 using Filmstudion.API.Models.FilmStudioDir;
 using Filmstudion.API.Models.User;
 using Filmstudion.API.Services;
@@ -48,8 +48,7 @@ namespace Filmstudion.API.Controllers
                 UserName = model.UserName,
                 Role = "filmstudio",
                 FilmStudio = studio,
-                FilmStudioId = filmStudio.FilmStudioId
-
+                FilmStudioId = filmStudio.FilmStudioId               
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -57,7 +56,8 @@ namespace Filmstudion.API.Controllers
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError);
             _userManager.AddToRoleAsync(user, "filmstudio").Wait();
-            return Ok(filmStudio);
+            var authFilmStudio = _mapper.Map<FilmStudioCreated>(filmStudio);
+            return Ok(authFilmStudio);
         }
 
         [HttpGet]
@@ -67,7 +67,7 @@ namespace Filmstudion.API.Controllers
             var model = _mapper.Map<IList<FilmStudios>>(filmStudios);
             return Ok(model);
         }
-        [AllowAnonymous]
+        
         [HttpGet("{filmStudioId}")]
         public async Task<IActionResult> GetFilmStudio(int filmstudioId)
         {
@@ -76,14 +76,7 @@ namespace Filmstudion.API.Controllers
             {
                 return Ok(filmStudio);
             }
-           /* else if (User.IsInRole("filmstudio"))//Kom tillbaka hit
-            {
-                var user = await _userManager.GetUserAsync(User);
-                if(user.FilmStudioId == filmstudioId)
-                {
-                    return Ok(filmStudio);
-                }
-            }*/
+          
             var noAuthFilmStudio = _mapper.Map<NoAuthFilmStudio>(filmStudio);
             return Ok(noAuthFilmStudio);
         }

@@ -1,4 +1,6 @@
-﻿using Filmstudion.API.Models.Film;
+﻿using Filmstudion.API.Models.DTO;
+using Filmstudion.API.Models.Film;
+using Filmstudion.API.Models.FilmStudioDir;
 using Filmstudion.API.Persistence.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
 using System;
@@ -11,24 +13,17 @@ namespace Filmstudion.API.Services
     public class FilmService
     {
         private readonly FilmRepository _filmRepository;
+        private readonly FilmStudioRepository _filmStudioRepository;
 
-        public FilmService(FilmRepository filmRepository)
+        public FilmService(FilmRepository filmRepository, FilmStudioRepository filmStudioRepository)
         {
            _filmRepository = filmRepository;
+            _filmStudioRepository = filmStudioRepository;
         }
 
-        public Film CreateFilm(Film film, int copies)
+        public Film CreateFilm(Film film)
         {
-            for(int i = 0; i< copies; i++) 
-            {
-                var filmCopy = new FilmCopy
-                {
-                    FilmCopyId = i,
-                    FilmId = film.FilmId//This doesn't work, cuz FilmId is 0 until it reaches the database and gets id automatically. Fix this.
-                };
-                _filmRepository.CreateCopy(filmCopy);
-                film.FilmCopies.Add(filmCopy);
-            }
+            
           _filmRepository.Create(film);
             
             return film;
@@ -42,6 +37,10 @@ namespace Filmstudion.API.Services
         {
            var films = await _filmRepository.ListAsync();
            var film = films.FirstOrDefault(x => x.FilmId == filmId);
+            if(film == null)
+            {
+                return null;
+            }
             patchEntity.ApplyTo(film);
            _filmRepository.Update(film);
             return film;
@@ -50,6 +49,73 @@ namespace Filmstudion.API.Services
         public async Task<IEnumerable<FilmCopy>> GetFilmCopies()
         {
             return await _filmRepository.GetFilmCopies();
+        }
+
+        public void AddCopies(int filmId, int copies)
+        {
+            for (int i = 0; i < copies; i++)
+            {
+                var filmCopy = new FilmCopy
+                {
+                    FilmId = filmId,
+                    RentedOut = false,
+                    FilmStudioId = 0
+                };
+                _filmRepository.CreateCopy(filmCopy);
+                //film.FilmCopies.Add(filmCopy);
+            }
+        }
+
+        public async Task ChangeFilmCopies(int filmId, int desiredNumberOfCopies)
+        {
+            var allFilmCopies = await _filmRepository.GetFilmCopies();
+            var idFilmCopies = allFilmCopies.Where(x => x.FilmId == filmId).Count();
+            if(idFilmCopies > desiredNumberOfCopies)
+            {
+                var difference = idFilmCopies - desiredNumberOfCopies;
+                for(int i = 0; i < difference; i++)
+                {
+                    await _filmRepository.DeleteFilmCopy(filmId);
+                }
+            }
+            else
+            {
+                var difference = desiredNumberOfCopies - idFilmCopies;
+                for(int i = 0;i < difference; i++)
+                {
+                    var filmCopy = new FilmCopy { FilmId = filmId };
+                     _filmRepository.CreateCopy(filmCopy);
+                }
+            }
+        }
+
+        public async Task RentFilm(int id, int studioId)
+        {
+            var filmCopies = await _filmRepository.GetFilmCopies();
+            var filmStudios = await _filmStudioRepository.ListAsync();
+            var filmCopy = filmCopies.FirstOrDefault(x => x.FilmId == id && x.RentedOut == false);
+            var filmStudio = filmStudios.FirstOrDefault(x => x.FilmStudioId == studioId);
+            filmCopy.FilmStudioId = filmStudio.FilmStudioId;
+            filmCopy.RentedOut = true;
+            _filmRepository.UpdateFilmCopy(filmCopy);
+            
+           
+        }
+
+        public async Task<Film> GetFilm(int filmId)
+        {
+            var films = await _filmRepository.ListAsync();
+            var film = films.FirstOrDefault(f => f.FilmId == filmId);
+            return film;
+        }
+
+        public async Task ReturnFilm(int id, int studioId)
+        {
+            var filmCopies = await _filmRepository.GetFilmCopies();
+            var copy = filmCopies.FirstOrDefault(x => x.FilmId == id && x.RentedOut == true&&x.FilmStudioId == studioId);
+            copy.FilmStudioId = 0;
+            copy.RentedOut = false;
+            _filmRepository.UpdateFilmCopy(copy);
         }
     }
 }

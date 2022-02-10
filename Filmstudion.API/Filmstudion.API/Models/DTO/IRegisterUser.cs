@@ -1,4 +1,4 @@
-﻿namespace Filmstudion.API.Models.CRUD
+﻿namespace Filmstudion.API.Models.DTO
 {
     public interface IRegisterUser
     {

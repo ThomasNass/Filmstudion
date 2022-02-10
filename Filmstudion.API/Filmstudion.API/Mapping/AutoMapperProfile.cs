@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Filmstudion.API.Models.CRUD;
+using Filmstudion.API.Models.DTO;
 using Filmstudion.API.Models.Film;
 using Filmstudion.API.Models.FilmStudioDir;
 using Filmstudion.API.Models.User;
@@ -16,8 +16,9 @@ namespace Filmstudion.API.Mapping
             CreateMap<RegisterFilmStudio, User>();
             CreateMap<User,UserCreated>();
             CreateMap<CreateFilm,Film>();
-            CreateMap<Film,NoAuthFilms>();
+            CreateMap<Film,NoAuthFilm>();
             CreateMap<FilmStudio, NoAuthFilmStudio>();
+            CreateMap<FilmStudio, FilmStudioCreated>();
         }
     }
 }

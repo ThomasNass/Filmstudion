@@ -1,10 +1,11 @@
 ﻿using Filmstudion.API.Models.Film;
+using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
-namespace Filmstudion.API.Models.CRUD
+
+namespace Filmstudion.API.Models.DTO
 {
-    public class NoAuthFilms:IFilm
+    public class NoAuthFilm:IFilm
     {
         public int FilmId { get; set; }
         public string Name { get; set; }

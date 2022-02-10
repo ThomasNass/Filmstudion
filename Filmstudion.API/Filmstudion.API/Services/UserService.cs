@@ -14,31 +14,12 @@ namespace Filmstudion.API.Services
             _userRepository = userRepository;
         }
 
-        public object CreateUser(User user)
+        public async Task<User> GetByName(string name)
         {
-            if (user.IsAdmin == true) {
-                user.Role = "admin";
-            _userRepository.Create(user);
-                
-
-            var newUser = new {id= user.Id,role = user.Role, name = user.UserName };
-                return newUser;
-            }
-            
-            return null;
-        }
-
-        public async Task<User> Authenticate(string username, string password)
-        {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                return null;
             var users = await _userRepository.ListAsync();
-            var user = users.Where(u => u.UserName == username && u.Password == password).FirstOrDefault();
-           
-            if (user == null) return null;
+            var user = users.FirstOrDefault(n=> n.UserName == name);
+
             return user;
-
-
         }
     }
 }

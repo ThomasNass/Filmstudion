@@ -1,8 +1,8 @@
 ﻿using Filmstudion.API.Models.FilmStudioDir;
 using Filmstudion.API.Models.User;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
-namespace Filmstudion.API.Models.CRUD
+namespace Filmstudion.API.Models.DTO
 {
     public class UserCreated:IUser
     {
@@ -17,7 +17,7 @@ namespace Filmstudion.API.Models.CRUD
         public FilmStudio FilmStudio { get; set; }
         [JsonIgnore]
         public string Password { get; set; }
-        [JsonIgnore]
-        public string Token { get; set; }
+       
+      
     }
 }

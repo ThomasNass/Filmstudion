@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Filmstudion.API.Persistence.Repositories
 {
@@ -41,6 +42,20 @@ namespace Filmstudion.API.Persistence.Repositories
         public async Task<IEnumerable<FilmCopy>> GetFilmCopies()
         {
             return await _context.FilmCopies.ToListAsync();
+        }
+
+        public async Task DeleteFilmCopy(int filmId)
+        {
+            var copy = await _context.FilmCopies.LastOrDefaultAsync(c => c.FilmId == filmId && c.RentedOut != true);
+            _context.FilmCopies.Remove(copy);
+            _context.SaveChanges();
+        }
+
+        public void UpdateFilmCopy(FilmCopy filmCopy)
+        {
+            var copy =  _context.FilmCopies.FirstOrDefault(c => c.FilmCopyId == filmCopy.FilmCopyId);
+            _context.FilmCopies.Update(copy);
+            _context.SaveChanges();
         }
     }
 }

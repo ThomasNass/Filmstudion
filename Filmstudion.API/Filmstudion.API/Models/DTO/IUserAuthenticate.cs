@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Filmstudion.API.Models.CRUD
+namespace Filmstudion.API.Models.DTO
 {
-    public class UserAuthenticate
+    public interface IUserAuthenticate
     {
         [Required]
         public string UserName { get; set; }

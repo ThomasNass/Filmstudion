@@ -13,7 +13,8 @@ namespace Filmstudion.API.Models.User
         public bool IsAdmin { get; set; }
         public int FilmStudioId { get; set; }
         public FilmStudio FilmStudio { get; set; }
+        
         public string Password { get; set; }
-        public string Token { get; set; }
+        
     }
 }
