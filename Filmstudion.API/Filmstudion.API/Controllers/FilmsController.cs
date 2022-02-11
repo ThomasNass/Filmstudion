@@ -50,6 +50,8 @@ namespace Filmstudion.API.Controllers
         {
             if (User.IsInRole("admin")) 
            {
+                var film = await _filmService.GetFilm(filmId);
+                if(film==null) return NotFound();
                 await _filmService.ChangeFilmCopies(filmId, copies.DesiredNumberOfCopies);
                 
                 return Ok();
@@ -64,7 +66,8 @@ namespace Filmstudion.API.Controllers
             if (User.IsInRole("admin") || User.IsInRole("filmstudio"))
             {
                 var films = await _filmService.GetFilmsAsync();
-                return Ok(films);//Denna måste returnera films med filmcopies, vilket den inte gör
+                var AuthFilms = _mapper.Map<IList<AuthFilm>>(films);
+                return Ok(AuthFilms);
             }
             else 
             { 
@@ -96,7 +99,8 @@ namespace Filmstudion.API.Controllers
             if(film == null) return NotFound();
             if (User.IsInRole("admin") || User.IsInRole("filmstudio"))
             {
-                return Ok(film);
+                var AuthFilm = _mapper.Map<AuthFilm>(film);
+                return Ok(AuthFilm);
             }
             else 
             {

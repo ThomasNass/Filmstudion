@@ -19,6 +19,8 @@ namespace Filmstudion.API.Mapping
             CreateMap<Film,NoAuthFilm>();
             CreateMap<FilmStudio, NoAuthFilmStudio>();
             CreateMap<FilmStudio, FilmStudioCreated>();
+            CreateMap<FilmStudio, AuthFilmStudio>();
+            CreateMap<Film,AuthFilm>();
         }
     }
 }

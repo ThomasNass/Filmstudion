@@ -11,12 +11,12 @@ namespace Filmstudion.API.Services
     public class FilmStudioService//:IFilmStudioService
     {
         private readonly FilmStudioRepository _filmStudioRepository;
-        private readonly UserRepository _userRepository;
+        private readonly FilmRepository _filmRepository;
 
-        public FilmStudioService(FilmStudioRepository filmStudioRepository, UserRepository userRepository)
+        public FilmStudioService(FilmStudioRepository filmStudioRepository, FilmRepository filmRepository)
         {
             _filmStudioRepository = filmStudioRepository;
-            _userRepository = userRepository;
+            _filmRepository = filmRepository;
         }
 
         public FilmStudio CreateFilmStudio(FilmStudio filmStudio)
@@ -30,12 +30,22 @@ namespace Filmstudion.API.Services
         public async Task<IEnumerable<FilmStudio>> GetAllFilmStudios()
         {
             var filmStudios = await _filmStudioRepository.ListAsync();
+            var allFilmCopies = await _filmRepository.GetFilmCopies();//Samma här som nedanför, det sker en automatisk mappning av att de hämtas in i samma metod. Blir dubletter om jag försöker sammanföra dem själv
             return filmStudios;
         }
         public async Task<FilmStudio> GetFilmStudio(int filmStudioId)
         {
             var filmStudios = await _filmStudioRepository.ListAsync();
             var filmStudio = filmStudios.FirstOrDefault(x => x.FilmStudioId == filmStudioId);
+            var allFilmCopies = await _filmRepository.GetFilmCopies();
+            //var filmCopies = allFilmCopies.Where(f => f.FilmStudioId == filmStudio.FilmStudioId).ToList();//Här sker något teknomagiskt som gör att filmcopies blir mappade till studion
+           /* if(filmCopies != null)//Blev därför tvungen att ta bort denna loopen då det blev dubbletter annars
+            {
+                foreach(var filmCopy in filmCopies)
+                {
+                    filmStudio.RentedFilmCopies.Add(filmCopy);
+                }
+            }*/
             return filmStudio;
         }
 

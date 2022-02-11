@@ -32,7 +32,13 @@ namespace Filmstudion.API.Persistence.Contexts
             builder.Entity<FilmCopy>().HasData(
                 new FilmCopy { FilmCopyId = 1, FilmId = 1,RentedOut=false },
                 new FilmCopy { FilmCopyId = 2, FilmId = 1, RentedOut = false },
-                new FilmCopy { FilmCopyId = 3, FilmId = 1, RentedOut = false }
+                new FilmCopy { FilmCopyId = 3, FilmId = 1, RentedOut = false },
+                new FilmCopy { FilmCopyId = 4, FilmId = 2, RentedOut = false },
+                new FilmCopy { FilmCopyId = 5, FilmId = 2, RentedOut = false },
+                new FilmCopy { FilmCopyId = 6, FilmId = 2, RentedOut = false },
+                new FilmCopy { FilmCopyId = 7, FilmId = 3, RentedOut = false },
+                new FilmCopy { FilmCopyId = 8, FilmId = 3, RentedOut = false },
+                new FilmCopy { FilmCopyId = 9, FilmId = 3, RentedOut = false }
                 );
         }
     }

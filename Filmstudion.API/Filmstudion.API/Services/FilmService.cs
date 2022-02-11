@@ -30,7 +30,9 @@ namespace Filmstudion.API.Services
         }   
         public async Task<IEnumerable<Film>> GetFilmsAsync()
         {
-            return await _filmRepository.ListAsync();
+             var films = await _filmRepository.ListAsync();
+            var filmCopies = await _filmRepository.GetFilmCopies();
+            return films;
         }
 
         public async Task<Film> UpdateFilm(int filmId, JsonPatchDocument<Film> patchEntity)
@@ -98,7 +100,7 @@ namespace Filmstudion.API.Services
             filmCopy.FilmStudioId = filmStudio.FilmStudioId;
             filmCopy.RentedOut = true;
             _filmRepository.UpdateFilmCopy(filmCopy);
-            
+            _filmStudioRepository.SaveChanges();
            
         }
 
@@ -106,6 +108,7 @@ namespace Filmstudion.API.Services
         {
             var films = await _filmRepository.ListAsync();
             var film = films.FirstOrDefault(f => f.FilmId == filmId);
+            var filmCopies = _filmRepository.GetFilmCopies();//Detta anrop automappar filmcopies till film
             return film;
         }
 

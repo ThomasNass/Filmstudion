@@ -22,5 +22,10 @@ namespace Filmstudion.API.Persistence.Repositories
             _context.FilmStudios.Add(filmStudio);
             _context.SaveChanges();
         }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
     }
 }

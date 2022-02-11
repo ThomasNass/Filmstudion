@@ -74,7 +74,8 @@ namespace Filmstudion.API.Controllers
             var filmStudio = await _filmStudioService.GetFilmStudio(filmstudioId);
             if (User.IsInRole("admin"))
             {
-                return Ok(filmStudio);
+                var displayFilmStudio = _mapper.Map<AuthFilmStudio>(filmStudio);
+                return Ok(displayFilmStudio);
             }
           
             var noAuthFilmStudio = _mapper.Map<NoAuthFilmStudio>(filmStudio);
