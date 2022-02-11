@@ -1,10 +1,13 @@
-﻿using Filmstudion.API.Models.User;
+﻿using AutoMapper;
+using Filmstudion.API.Models.DTO;
+using Filmstudion.API.Models.User;
 using Filmstudion.API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Filmstudion.API.Controllers
 {
@@ -13,27 +16,27 @@ namespace Filmstudion.API.Controllers
     [ApiController]
     public class MyStudioController : ControllerBase
     {
-        private readonly FilmService _filmService;
         private readonly UserManager<User> _userManager;
         private readonly FilmStudioService _filmStudioService;
-        private readonly UserService _userService;
+        private readonly IMapper _mapper;
 
-        public MyStudioController(FilmService filmService, UserManager<User> userManager, FilmStudioService filmStudioService, UserService userService)
+        public MyStudioController(UserManager<User> userManager, FilmStudioService filmStudioService, IMapper mapper)
         {
-           _filmService = filmService;
            _userManager = userManager;
            _filmStudioService = filmStudioService;
-           _userService = userService;
+            _mapper = mapper;
         }
 
-       /* [HttpGet]
+        [HttpGet("rentals")]
         public async Task<IActionResult> GetRentedFilms()
         {
-            var userName = User.Identity.Name;
-            var user = _userService.GetByName(userName);
-            var b = user.FilmStudioId;
-            var filmstudioUser = _userManager.FindByIdAsync(user.);
-            await _filmStudioService.GetFilmStudio();
-        }*/
+            var user = User.Identity.Name;
+            if (User.IsInRole("filmstudio") && User.Identity.Name == user) { 
+            var filmStudio =await _filmStudioService.GetFilmStudio(user);
+            var copies = _mapper.Map<FilmCopies>(filmStudio);
+            return Ok(copies);
+            }
+            return Unauthorized();
+        }
     }
 }

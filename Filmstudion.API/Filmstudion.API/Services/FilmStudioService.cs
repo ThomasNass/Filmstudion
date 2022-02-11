@@ -21,7 +21,7 @@ namespace Filmstudion.API.Services
 
         public FilmStudio CreateFilmStudio(FilmStudio filmStudio)
         {
-            
+            filmStudio.FilmStudioId = filmStudio.FilmStudioName;
             _filmStudioRepository.Create(filmStudio);
            
             return filmStudio;
@@ -33,7 +33,7 @@ namespace Filmstudion.API.Services
             var allFilmCopies = await _filmRepository.GetFilmCopies();//Samma här som nedanför, det sker en automatisk mappning av att de hämtas in i samma metod. Blir dubletter om jag försöker sammanföra dem själv
             return filmStudios;
         }
-        public async Task<FilmStudio> GetFilmStudio(int filmStudioId)
+        public async Task<FilmStudio> GetFilmStudio(string filmStudioId)
         {
             var filmStudios = await _filmStudioRepository.ListAsync();
             var filmStudio = filmStudios.FirstOrDefault(x => x.FilmStudioId == filmStudioId);

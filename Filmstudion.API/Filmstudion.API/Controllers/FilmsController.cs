@@ -111,7 +111,7 @@ namespace Filmstudion.API.Controllers
 
         [HttpGet]
         [Route("filmcopies")]
-        public async Task<IActionResult> GetFilmCopies()
+        public async Task<IActionResult> GetFilmCopies()//This one is not required, I made it because I wanted to have it
         {
             var copies = await _filmService.GetFilmCopies();
             return Ok(copies);
@@ -120,34 +120,32 @@ namespace Filmstudion.API.Controllers
           
          [HttpPost]
          [Route("rent")]
-         public async Task <IActionResult> RentFilm([FromQuery] int id ,int studioId )
+         public async Task <IActionResult> RentFilm([FromQuery] int id ,string studioId )
          {
-             await _filmService.RentFilm(id,studioId);//Denna måste jobbas mer på
-             return Ok();
-         }
-        //TODO 13.
-        //Ett lyckat anrop ska returnera statuskod 200.
-       /* Om anropet görs av en icke-autentiserad admin, eller av en autentiserad filmstudio vars id inte överensstämmer 
-        * med id:t som anges i anropet, ska anropet returnera statuskod 401 eller annan felkod(absolut inte 200) och lånet ska inte godkännas.
-       Om filmen inte finns ska statuskod 409 returneras.
-       Om filmen inte har några lediga kopior ska statuskod 409 returneras.
-       Om filmstudion redan hyr en kopia av samma film ska statuskod 403 returneras och lånet ska inte gå igenom.*/
+            var checkUser = User.Identity.Name;
+            if(checkUser == studioId|| User.IsInRole("admin")) { 
+            await _filmService.RentFilm(id,studioId);
+             return Ok();  
+            }
+            return Unauthorized();
+        }
        
 
         [HttpPost]
         [Route("return")]
-        public async Task <IActionResult> ReturnFilm([FromQuery]int id, int studioId)
+        public async Task <IActionResult> ReturnFilm([FromQuery]int id, string studioId)
         {
-            await _filmService.ReturnFilm(id, studioId);
-            return Ok();
+            var checkUser = User.Identity.Name;
+            if (checkUser == studioId)
+            {
+                var result =await _filmService.ReturnFilm(id, studioId);
+                if (result == true) return Ok();
+                return Conflict();
+            }
+            return Unauthorized();
         }
 
-        //TODO 14.
-        //Ett lyckat anrop ska returnera statuskod 200.
-        /*Om anropet görs av en icke-autentiserad användare, 
-         * eller om filmstudion som är inloggad inte överensstämmer med filmstudion vars id anges i anropet,
-         * ska anropet returnera statuskod 401.
-         Om filmen inte finns ska statuskod 409 returneras.*/
+        
 
     }
 }

@@ -9,7 +9,7 @@ namespace Filmstudion.API.Models.FilmStudioDir
     public class FilmStudio:IFilmStudio
     {
        
-        public int FilmStudioId { get; set; }
+        public string FilmStudioId { get; set; }
         public string FilmStudioName { get; set; }
         public string FilmStudioCity { get; set; }
         public List<FilmCopy> RentedFilmCopies { get; set; }

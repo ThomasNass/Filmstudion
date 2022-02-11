@@ -35,7 +35,7 @@ namespace Filmstudion.API.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterFilmStudio model)
         {
-            var userExists = await _userManager.FindByNameAsync(model.UserName);
+            var userExists = await _userManager.FindByNameAsync(model.FilmStudioName);
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
@@ -43,12 +43,12 @@ namespace Filmstudion.API.Controllers
             var filmStudio = _filmStudioService.CreateFilmStudio(studio);
 
             User user = new User()
-            {
+            {   
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.UserName,
+                UserName = model.FilmStudioName,
                 Role = "filmstudio",
                 FilmStudio = studio,
-                FilmStudioId = filmStudio.FilmStudioId               
+                FilmStudioId = model.FilmStudioName               
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -69,7 +69,7 @@ namespace Filmstudion.API.Controllers
         }
         
         [HttpGet("{filmStudioId}")]
-        public async Task<IActionResult> GetFilmStudio(int filmstudioId)
+        public async Task<IActionResult> GetFilmStudio(string filmstudioId)
         {
             var filmStudio = await _filmStudioService.GetFilmStudio(filmstudioId);
             if (User.IsInRole("admin"))

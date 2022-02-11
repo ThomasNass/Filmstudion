@@ -60,11 +60,9 @@ namespace Filmstudion.API.Services
                 var filmCopy = new FilmCopy
                 {
                     FilmId = filmId,
-                    RentedOut = false,
-                    FilmStudioId = 0
+                    RentedOut = false 
                 };
-                _filmRepository.CreateCopy(filmCopy);
-                //film.FilmCopies.Add(filmCopy);
+                _filmRepository.CreateCopy(filmCopy);           
             }
         }
 
@@ -91,18 +89,17 @@ namespace Filmstudion.API.Services
             }
         }
 
-        public async Task RentFilm(int id, int studioId)
-        {
+        public async Task RentFilm(int id, string studioId)
+        { 
             var filmCopies = await _filmRepository.GetFilmCopies();
             var filmStudios = await _filmStudioRepository.ListAsync();
-            var filmCopy = filmCopies.FirstOrDefault(x => x.FilmId == id && x.RentedOut == false);
+            var filmCopy = filmCopies.FirstOrDefault(x => x.FilmId == id && x.RentedOut == false); 
             var filmStudio = filmStudios.FirstOrDefault(x => x.FilmStudioId == studioId);
             filmCopy.FilmStudioId = filmStudio.FilmStudioId;
             filmCopy.RentedOut = true;
             _filmRepository.UpdateFilmCopy(filmCopy);
             _filmStudioRepository.SaveChanges();
-           
-        }
+       }
 
         public async Task<Film> GetFilm(int filmId)
         {
@@ -112,13 +109,15 @@ namespace Filmstudion.API.Services
             return film;
         }
 
-        public async Task ReturnFilm(int id, int studioId)
+        public async Task<bool> ReturnFilm(int id, string studioId)
         {
             var filmCopies = await _filmRepository.GetFilmCopies();
             var copy = filmCopies.FirstOrDefault(x => x.FilmId == id && x.RentedOut == true&&x.FilmStudioId == studioId);
-            copy.FilmStudioId = 0;
+            if (copy == null) return false;
+            copy.FilmStudioId = null;
             copy.RentedOut = false;
             _filmRepository.UpdateFilmCopy(copy);
+            return true;
         }
     }
 }

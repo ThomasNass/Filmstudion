@@ -12,7 +12,7 @@ namespace Filmstudion.API.Models.DTO
         [JsonIgnore]
         public bool IsAdmin { get; set; }
         [JsonIgnore]
-        public int FilmStudioId { get; set; }
+        public string FilmStudioId { get; set; }
         [JsonIgnore]
         public FilmStudio FilmStudio { get; set; }
         [JsonIgnore]
