@@ -98,7 +98,7 @@ namespace Filmstudion.API.Services
             filmCopy.FilmStudioId = filmStudio.FilmStudioId;
             filmCopy.RentedOut = true;
             _filmRepository.UpdateFilmCopy(filmCopy);
-            _filmStudioRepository.SaveChanges();
+            
        }
 
         public async Task<Film> GetFilm(int filmId)

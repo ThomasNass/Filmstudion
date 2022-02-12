@@ -20,13 +20,12 @@ namespace Filmstudion.API.Controllers
     [ApiController]
     public class FilmsController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
+       
         private readonly IMapper _mapper;
         private readonly FilmService _filmService;
 
-        public FilmsController(UserManager<User> userManager, IMapper mapper, FilmService filmService)
+        public FilmsController( IMapper mapper, FilmService filmService)
         {
-            _userManager = userManager;
             _mapper = mapper;
             _filmService = filmService;
         }
