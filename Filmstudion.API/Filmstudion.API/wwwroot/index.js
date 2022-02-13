@@ -13,7 +13,7 @@ if (user) {
     logOutBtn.id = "logout";
     logOutBtn.textContent = "Logga ut";
     logOutBtn.addEventListener("click", () => {
-        localStorage.removeItem("user");
+        sessionStorage.removeItem("user");
         location.href = "index.html";
     })
     studioBtn.addEventListener("click", () => {

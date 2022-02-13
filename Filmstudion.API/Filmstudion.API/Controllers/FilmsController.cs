@@ -22,9 +22,9 @@ namespace Filmstudion.API.Controllers
     {
        
         private readonly IMapper _mapper;
-        private readonly FilmService _filmService;
+        private readonly IFilmService _filmService;
 
-        public FilmsController( IMapper mapper, FilmService filmService)
+        public FilmsController( IMapper mapper, IFilmService filmService)
         {
             _mapper = mapper;
             _filmService = filmService;

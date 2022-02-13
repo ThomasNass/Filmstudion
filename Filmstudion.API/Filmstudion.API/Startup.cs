@@ -74,12 +74,10 @@ namespace Filmstudion.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Filmstudion.API", Version = "v1" });
             });
-            services.AddScoped<UserService>();
-            services.AddScoped<FilmStudioService>();
-            services.AddScoped<FilmStudioRepository>();
-            services.AddScoped<UserRepository>();
-            services.AddScoped<FilmService>();
-            services.AddScoped<FilmRepository>();
+            services.AddScoped<IFilmStudioService,FilmStudioService>();
+            services.AddScoped<IFilmStudioRepository,FilmStudioRepository>();
+            services.AddScoped<IFilmService,FilmService>();
+            services.AddScoped<IFilmRepository,FilmRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

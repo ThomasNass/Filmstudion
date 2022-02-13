@@ -20,9 +20,9 @@ namespace Filmstudion.API.Controllers
     {
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
-        private readonly FilmStudioService _filmStudioService;
+        private readonly IFilmStudioService _filmStudioService;
 
-        public FilmStudioController(FilmStudioService filmStudioService, IMapper mapper, UserManager<User> userManager)
+        public FilmStudioController(IFilmStudioService filmStudioService, IMapper mapper, UserManager<User> userManager)
         {
             _mapper = mapper;
             _userManager = userManager;

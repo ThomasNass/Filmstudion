@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Filmstudion.API.Persistence.Repositories
 {
-    public class FilmStudioRepository: BaseRepository
+    public class FilmStudioRepository: BaseRepository , IFilmStudioRepository
     {
         public FilmStudioRepository(AppDbContext context) : base(context)
         { }

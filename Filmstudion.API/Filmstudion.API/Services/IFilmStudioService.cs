@@ -4,14 +4,13 @@ using System.Threading.Tasks;
 
 namespace Filmstudion.API.Services
 {
-    public class IFilmStudioService
+    public interface IFilmStudioService
     {
-        FilmStudio CreateFilmStudio(FilmStudio filmstudio)
-        {
-            return filmstudio;
-        }
-
-        public Task<IEnumerable<FilmStudio>> GetAllFilmStudios { get; }
-       
+        public FilmStudio CreateFilmStudio(FilmStudio filmStudio);
+      
+        
+        public Task<IEnumerable<FilmStudio>> GetAllFilmStudios();
+        public Task <FilmStudio> GetFilmStudio(string id);
+        
     }
 }

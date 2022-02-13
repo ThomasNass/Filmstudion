@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Filmstudion.API.Services
 {
-    public class FilmStudioService//:IFilmStudioService
+    public class FilmStudioService:IFilmStudioService
     {
-        private readonly FilmStudioRepository _filmStudioRepository;
-        private readonly FilmRepository _filmRepository;
+        private readonly IFilmStudioRepository _filmStudioRepository;
+        private readonly IFilmRepository _filmRepository;
 
-        public FilmStudioService(FilmStudioRepository filmStudioRepository, FilmRepository filmRepository)
+        public FilmStudioService(IFilmStudioRepository filmStudioRepository, IFilmRepository filmRepository)
         {
             _filmStudioRepository = filmStudioRepository;
             _filmRepository = filmRepository;

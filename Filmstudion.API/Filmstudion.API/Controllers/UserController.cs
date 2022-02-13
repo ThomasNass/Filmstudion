@@ -24,16 +24,12 @@ namespace Filmstudion.API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly UserService _userService;
-        private readonly FilmStudioService _filmStudioService;
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
 
-        public UserController(UserService userService, IMapper mapper, FilmStudioService filmStudioService,UserManager<User> userManager, IConfiguration configuration )
+        public UserController( IMapper mapper, UserManager<User> userManager, IConfiguration configuration )
         {
             _mapper = mapper;
-            _userService = userService;
-            _filmStudioService = filmStudioService;
             _userManager = userManager;
             _configuration = configuration;
         }

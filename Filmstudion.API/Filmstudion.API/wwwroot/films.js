@@ -37,15 +37,21 @@ const getFilms = async () => {
 const renderPage = async () => {
     const films = await getFilms();
     let available = false;
+    let check = films.length;
+    console.log(films)
     for (film of films) {
         const filmCopies = film.filmCopies;
 
         for (filmCopy of filmCopies) {
             if (filmCopy.filmStudioId == user.username) {
+                console.log(user.username)
+                available = false;
+                check--;
                 break;
             }
-            if (filmCopy.rentedOut == false) {
+            else if (filmCopy.rentedOut == false) {
                 available = true;
+                check++;
                 break;
             }
         }
@@ -69,50 +75,52 @@ const renderPage = async () => {
             const returnUrl = `https://localhost:5001/api/films/rent?id=${film.filmId}&studioid=${user.filmstudioId}`;
             rentBtn.addEventListener("click", async () => {
                 rentFilm(returnUrl, headers);
-                location.href = "films.html";
+
+                location.reload();
             })
             content.appendChild(div);
-            div.append(ul, rentBtn);
+            div.append(ul);
             ul.append(liName, liDirector, liCountry);
+            div.append(rentBtn);
         }
     }
-    if (available == false) {
+    if (check == 0) {
         const p = document.createElement("p");
         p.textContent = "Det finns inga filmer att hyra";
         content.appendChild(p);
     }
 
 }
+renderPage();
+// const renderUnAuthPage = async () => {
+//     const films = await getFilms();
+//     for (film of films) {
+//         const div = document.createElement("div");
+//         const ul = document.createElement("ul");
+//         const liName = document.createElement("li");
+//         const liCountry = document.createElement("li");
+//         const liDirector = document.createElement("li");
+//         div.classList.add("rentedCopyDiv");
+//         ul.classList.add("rentedCopyUl");
+//         liName.classList.add("rentedCopyLi");
+//         liCountry.classList.add("rentedCopyLi");
+//         liDirector.classList.add("rentedCopyLi");
+//         liName.textContent = `Namn = ${film.name}`;
+//         liCountry.textContent = `Land = ${film.country}`;
+//         liDirector.textContent = `Regissör = ${film.director}`;
 
-const renderUnAuthPage = async () => {
-    const films = await getFilms();
-    for (film of films) {
-        const div = document.createElement("div");
-        const ul = document.createElement("ul");
-        const liName = document.createElement("li");
-        const liCountry = document.createElement("li");
-        const liDirector = document.createElement("li");
-        div.classList.add("rentedCopyDiv");
-        ul.classList.add("rentedCopyUl");
-        liName.classList.add("rentedCopyLi");
-        liCountry.classList.add("rentedCopyLi");
-        liDirector.classList.add("rentedCopyLi");
-        liName.textContent = `Namn = ${film.name}`;
-        liCountry.textContent = `Land = ${film.country}`;
-        liDirector.textContent = `Regissör = ${film.director}`;
+//         content.appendChild(div);
+//         div.append(ul);
+//         ul.append(liName, liDirector, liCountry);
+//     }
+// }
 
-        content.appendChild(div);
-        div.append(ul);
-        ul.append(liName, liDirector, liCountry);
-    }
-}
+//if (user) {
 
-if (user) {
-    renderPage();
-}
-else {
-    const rentedButton = document.querySelector("#filmstudios");
-    rentedButton.style.display = "none";
-    renderUnAuthPage();
+//}
+// else {
+//     const rentedButton = document.querySelector("#filmstudios");
+//     rentedButton.style.display = "none";
+//     renderUnAuthPage();
 
-}
+// }

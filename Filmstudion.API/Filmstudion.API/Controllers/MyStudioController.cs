@@ -17,10 +17,10 @@ namespace Filmstudion.API.Controllers
     public class MyStudioController : ControllerBase
     {
         private readonly UserManager<User> _userManager;
-        private readonly FilmStudioService _filmStudioService;
+        private readonly IFilmStudioService _filmStudioService;
         private readonly IMapper _mapper;
 
-        public MyStudioController(UserManager<User> userManager, FilmStudioService filmStudioService, IMapper mapper)
+        public MyStudioController(UserManager<User> userManager, IFilmStudioService filmStudioService, IMapper mapper)
         {
            _userManager = userManager;
            _filmStudioService = filmStudioService;
