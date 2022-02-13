@@ -5,7 +5,7 @@ const user = JSON.parse(sessionStorage.getItem("user"));
 
 if (user) {
     const greeting = document.querySelector("#greetUser");
-    greeting.textContent = `Hej ${user.username}`;
+    greeting.textContent = `Inloggad som: ${user.username}`;
     const logOutBtn = document.createElement("button");
     const studioBtn = document.createElement("button");
     studioBtn.id = "studioBtn";
@@ -19,7 +19,7 @@ if (user) {
     studioBtn.addEventListener("click", () => {
         location.href = "filmstudios.html";
     })
-    tempButtons.append(logOutBtn, studioBtn);
+    tempButtons.append(studioBtn, logOutBtn);
 }
 else {
     const logInBtn = document.createElement("button");
