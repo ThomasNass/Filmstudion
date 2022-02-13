@@ -36,13 +36,19 @@ namespace Filmstudion.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddMvc().AddNewtonsoftJson(); 
-            //services.AddAuthentication().AddCookie().AddJwtBearer();
-            
+            services.AddMvc().AddNewtonsoftJson();
+            services.AddCors(); 
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddDbContext<AppDbContext>(options =>
                 options.UseInMemoryDatabase(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 1;
+
+            }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -87,10 +93,14 @@ namespace Filmstudion.API
             }
 
             app.UseHttpsRedirection();
+            app.UseCors(x => x
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .SetIsOriginAllowed(origin => true) // allow any origin
+               .AllowCredentials()); // allow credentials
 
-            app.UseStaticFiles();
             app.UseRouting();
-
+            app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
 

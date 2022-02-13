@@ -82,16 +82,25 @@ namespace Filmstudion.API.Controllers
                 }
                else if (user.Role == "filmstudio")
                 {
-                    return Ok(new
+                    var a = new
                     {
                         username = user.UserName,
                         role = user.Role,
                         id = user.Id,
                         filmstudioId = user.FilmStudioId,
-                        filmstudio = user.FilmStudio,
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo
-                    }); ;
+                        token = new JwtSecurityTokenHandler().WriteToken(token)
+                        
+                    };
+                    var display = new Auth
+                    {
+                        username = user.UserName,
+                        role = user.Role,
+                        id = user.Id,
+                        filmstudioId = user.FilmStudioId,
+                        token = new JwtSecurityTokenHandler().WriteToken(token)    
+                    };
+
+                    return Ok(display); 
                 }
             }
             return Unauthorized();

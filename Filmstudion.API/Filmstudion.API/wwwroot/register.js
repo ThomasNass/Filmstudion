@@ -12,18 +12,26 @@ const getData = async (url) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            FilmStudioName: studioName.value,
-            FilmStudioCity: city,
-            password: password.value
+            FilmStudioName: studioName.value.toString(),
+            FilmStudioCity: city.value.toString(),
+            password: password.value.toString()
         })
     });
     const data = await response.json();
     return data;
 }
 
-registerBtn.querySelector("click", () => {
+registerBtn.addEventListener("click", async () => {
 
-    let result = await getData(url);
+    console.log(studioName.value, city.value, password.value)
+    let result = await registerUser();
 
+    location.href = "login.html"
     console.log(result)
 })
+
+const registerUser = async () => {
+    let result = await getData(url);
+    return result;
+
+}

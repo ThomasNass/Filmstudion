@@ -10,7 +10,7 @@ namespace Filmstudion.API.Mapping
     {
         public AutoMapperProfile()
         {
-            CreateMap<FilmStudio, FilmStudios>();
+            
             CreateMap<RegisterFilmStudio, FilmStudio>();
             CreateMap<RegisterUser, User>();
             CreateMap<RegisterFilmStudio, User>();

@@ -60,19 +60,28 @@ namespace Filmstudion.API.Controllers
             return Ok(authFilmStudio);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetAllFilmStudios()
         {
             var filmStudios = await _filmStudioService.GetAllFilmStudios();
-            var model = _mapper.Map<IList<FilmStudios>>(filmStudios);
+            if (User.IsInRole("admin"))
+            {
+                var model = _mapper.Map<IList<AuthFilmStudio>>(filmStudios);
+                return Ok(model);
+            }
+            else { 
+            var model = _mapper.Map<IList<NoAuthFilmStudio>>(filmStudios);
             return Ok(model);
+            }
         }
         
         [HttpGet("{filmStudioId}")]
         public async Task<IActionResult> GetFilmStudio(string filmstudioId)
         {
+            var checkUser = User.Identity.Name;
             var filmStudio = await _filmStudioService.GetFilmStudio(filmstudioId);
-            if (User.IsInRole("admin"))
+            if (User.IsInRole("admin")||checkUser == filmstudioId)
             {
                 var displayFilmStudio = _mapper.Map<AuthFilmStudio>(filmStudio);
                 return Ok(displayFilmStudio);
